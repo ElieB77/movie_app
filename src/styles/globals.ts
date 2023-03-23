@@ -1,0 +1,39 @@
+import { createGlobalStyle } from "styled-components";
+import { theme } from "./theme";
+
+const Globals = createGlobalStyle`
+  @font-face {
+    font-family: "Outfit";
+    src: url(../../public/fonts/static/Outfit-Light.ttf) format("truetype");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Outfit Medium";
+    src: url(../../public/fonts/static/Outfit-Medium.ttf) format("truetype");
+    font-display: swap;
+  }
+  
+
+  body {
+    font-family: "Outfit", sans-serif;
+    color: ${theme.colors.primary_light};
+    background-color: ${theme.colors.primary_dark};
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-family: "Outfit Medium", sans-serif;
+    font-size: 18px;
+  }
+`;
+
+export default Globals;
