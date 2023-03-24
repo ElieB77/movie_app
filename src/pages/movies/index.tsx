@@ -1,5 +1,7 @@
+import { LayoutMovies } from "@/component/Layout";
+
 const Movies = (): JSX.Element => {
-  return <div style={{ border: "solid 2px" }}>Movies</div>;
+  return <LayoutMovies />;
 };
 
 export default Movies;

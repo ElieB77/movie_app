@@ -13,13 +13,19 @@ const Globals = createGlobalStyle`
     src: url(../../public/fonts/static/Outfit-Medium.ttf) format("truetype");
     font-display: swap;
   }
-  
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box
+  }
 
   body {
     font-family: "Outfit", sans-serif;
     color: ${theme.colors.primary_light};
     background-color: ${theme.colors.primary_dark};
     font-size: 15px;
+    overflow-x: hidden
   }
 
   h1 {

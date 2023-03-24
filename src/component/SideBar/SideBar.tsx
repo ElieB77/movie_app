@@ -3,8 +3,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { menu } from "@/services/menu";
 import { LinkType } from "@/types/menu";
+import { useRouter } from "next/router";
 
 export const SideBar = (): JSX.Element => {
+  const router = useRouter();
   return (
     <Container>
       <Nav>
@@ -38,19 +40,20 @@ export const SideBar = (): JSX.Element => {
 const Container = styled.div`
   position: relative;
   align-items: center;
+  display: flex;
   justify-content: center;
   height: 100vh;
-  width: fit-content;
+  width: 8%;
 `;
 
 const Nav = styled.nav`
   background-color: ${(props) => props.theme.colors.secondary_dark};
-  width: 96px;
   height: 95%;
   border-radius: 20px;
   position: fixed;
   text-align: center;
   padding-top: 35px;
+  width: 5%;
 `;
 
 const NavLinks = styled.div`
@@ -58,8 +61,9 @@ const NavLinks = styled.div`
   flex-direction: column;
   gap: 40px;
   margin-top 75px;
-  
+
   & a:hover {
-    filter: invert(40%) sepia(57%) saturate(4644%) hue-rotate(337deg) brightness(104%) contrast(98%);
+    filter: invert(40%) sepia(57%) saturate(4644%) hue-rotate(337deg)
+      brightness(104%) contrast(98%);
   }
 `;
