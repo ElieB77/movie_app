@@ -1,14 +1,8 @@
+import { CardType } from "@/types/card";
 import styled from "styled-components";
 import Image from "next/image";
 
-interface CardProps {
-  title: string;
-  poster_path: string;
-  date: string;
-  alt: string;
-  width: number;
-  height: number;
-}
+interface CardProps extends CardType {}
 
 export const Card = (props: CardProps): JSX.Element => {
   return (
@@ -16,22 +10,42 @@ export const Card = (props: CardProps): JSX.Element => {
       <ImageWrapper>
         <Image src={props.poster_path} alt={props.alt} fill />
       </ImageWrapper>
-      <div></div>
+      <InfoWrapper>
+        <Info>
+          <p>{props.release_date}</p>
+          <span>|</span>
+          <p>{props.vote_average}</p>
+        </Info>
+        <h3>{props.title}</h3>
+      </InfoWrapper>
     </CardContainer>
   );
 };
 
 const CardContainer = styled.div`
-  min-width: 470px;
-  height: 230px;
-  overflow: hidden;
-  border-radius: 20px;
+  width: 280px;
+  height: 226px;
 `;
 
 const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 174px;
   & img {
+    border-radius: 8px;
+  }
+`;
+
+const InfoWrapper = styled.div`
+  gap: 50px;
+`;
+
+const Info = styled.div`
+  display: flex;
+  gap: 10px;
+  padding: 5px 0;
+  & p {
+    opacity: 0.75;
+    font-size: 13px;
   }
 `;

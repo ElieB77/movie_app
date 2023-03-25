@@ -63,7 +63,6 @@ const NavLinks = styled.div`
   margin-top 75px;
 
   & a:hover {
-    filter: invert(40%) sepia(57%) saturate(4644%) hue-rotate(337deg)
-      brightness(104%) contrast(98%);
+    filter: invert(40%) sepia(57%) saturate(4644%) hue-rotate(337deg) brightness(104%) contrast(98%);
   }
 `;

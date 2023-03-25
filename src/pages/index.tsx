@@ -1,27 +1,37 @@
 import { LayoutHome } from "@/component/Layout";
 import { getData } from "@/services/httpService";
+import { MoviesResponseType } from "@/types/api/movies";
 import { GetStaticProps } from "next/types";
 
 interface HomeProps {
-  movies: any;
+  popularMovies: MoviesResponseType;
+  topRatedMovies: MoviesResponseType;
 }
 
 export default function Home(props: HomeProps): JSX.Element {
-  console.log(props.movies);
-
   return (
     <>
-      <LayoutHome movies={props.movies} />
+      <LayoutHome
+        popularMovies={props.popularMovies}
+        topRatedMovies={props.topRatedMovies}
+      />
     </>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const movies = await getData("/movie/popular");
+  const popularMovies: MoviesResponseType = await getData<MoviesResponseType>(
+    "/movie/popular"
+  );
+
+  const topRatedMovies: MoviesResponseType = await getData<MoviesResponseType>(
+    "/movie/top_rated"
+  );
 
   return {
     props: {
-      movies,
+      popularMovies,
+      topRatedMovies,
     },
   };
 };

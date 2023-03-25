@@ -1,9 +1,13 @@
-export interface CardType {
-  id: number;
-  title: string;
+export interface FeaturedCardType {
   poster_path: string;
-  release_date: string;
   alt: string;
-  width: number;
-  height: number;
+  vote_average: number;
+}
+
+export interface CardType {
+  poster_path: string;
+  alt: string;
+  title: string;
+  release_date: string;
+  vote_average: number;
 }
