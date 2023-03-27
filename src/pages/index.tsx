@@ -1,7 +1,7 @@
-import { LayoutHome } from "@/component/Layout";
+import { LayoutHome } from "@/components/Layout";
 import { getData } from "@/services/httpService";
 import { MoviesResponseType } from "@/types/api/movies";
-import { GetStaticProps } from "next/types";
+import { GetServerSideProps } from "next/types";
 
 interface HomeProps {
   popularMovies: MoviesResponseType;
@@ -14,24 +14,23 @@ export default function Home(props: HomeProps): JSX.Element {
       <LayoutHome
         popularMovies={props.popularMovies}
         topRatedMovies={props.topRatedMovies}
+        total_pages={props.topRatedMovies.total_pages}
       />
     </>
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const popularMovies: MoviesResponseType = await getData<MoviesResponseType>(
     "/movie/popular"
   );
 
   const topRatedMovies: MoviesResponseType = await getData<MoviesResponseType>(
-    "/movie/top_rated"
+    "/movie/top_rated",
+    Number(context.query.page) || undefined
   );
 
   return {
-    props: {
-      popularMovies,
-      topRatedMovies,
-    },
+    props: { topRatedMovies: topRatedMovies, popularMovies: popularMovies },
   };
 };

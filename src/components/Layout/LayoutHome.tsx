@@ -3,22 +3,12 @@ import { CardType, FeaturedCardType } from "@/types/card";
 import styled from "styled-components";
 import { FeaturedCard, Card } from "../Card";
 import ScrollContainer from "react-indiana-drag-scroll";
-
-// import React, { Component } from 'react'
-
-// class Example extends Component {
-//   render () {
-//     return (
-//       <ScrollContainer className="scroll-container">
-//         { ... }
-//       </ScrollContainer>
-//     )
-//   }
-// }
+import { Pagination } from "../Pagination";
 
 interface LayoutHomeProps {
   popularMovies: MoviesResponseType;
   topRatedMovies: MoviesResponseType;
+  total_pages: number;
 }
 
 export const LayoutHome = (props: LayoutHomeProps): JSX.Element => {
@@ -55,6 +45,8 @@ export const LayoutHome = (props: LayoutHomeProps): JSX.Element => {
           })}
         </TopRatedCardContainer>
       </section>
+
+      <Pagination total_pages={props.total_pages} />
     </>
   );
 };

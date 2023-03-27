@@ -1,4 +1,4 @@
-import { LayoutMovies } from "@/component/Layout";
+import { LayoutMovies } from "@/components/Layout";
 
 const Movies = (): JSX.Element => {
   return <LayoutMovies />;

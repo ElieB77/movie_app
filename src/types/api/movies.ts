@@ -18,4 +18,6 @@ export interface MoviesType {
 export interface MoviesResponseType {
   page: number;
   results: MoviesType[];
+  total_pages: number;
+  total_results: number;
 }

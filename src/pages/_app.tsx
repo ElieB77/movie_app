@@ -2,16 +2,19 @@ import type { AppProps } from "next/app";
 import { theme } from "@/styles/theme";
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "@/styles/globals";
-import { Layout } from "@/component/Layout";
+import { Layout } from "@/components/Layout";
+import { PaginationProvider } from "@/contexts/PaginationContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <GlobalStyles />
       <ThemeProvider theme={theme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <PaginationProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </PaginationProvider>
       </ThemeProvider>
     </>
   );
