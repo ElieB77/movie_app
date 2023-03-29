@@ -4,12 +4,16 @@ import styled from "styled-components";
 
 interface PaginationProps {
   total_pages: number;
+  limit: number;
 }
 
 export const Pagination = (props: PaginationProps): JSX.Element => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const totalPages: number = Math.min(Math.ceil(props.total_pages), 250);
+  const totalPages: number = Math.min(
+    Math.ceil(props.total_pages),
+    props.limit
+  );
 
   const visibleRange: number[] = [
     Math.max(currentPage - 2, 0),
@@ -43,35 +47,45 @@ export const Pagination = (props: PaginationProps): JSX.Element => {
         .slice(...newRange)
     );
 
-    router.push(`?page=${pageNumber}`);
+    router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        page: pageNumber,
+      },
+    });
   };
 
   return (
-    <PaginationContainer>
-      {currentPage >= 3 && (
-        <>
-          <button onClick={() => handlePageClick(1)}>1</button>
-          <span>...</span>
-        </>
+    <>
+      {props.total_pages > 1 && (
+        <PaginationContainer>
+          {currentPage >= 3 && (
+            <>
+              <button onClick={() => handlePageClick(1)}>1</button>
+              <span>...</span>
+            </>
+          )}
+          {pageCountList.map((pageNumber: number) => (
+            <button
+              key={pageNumber}
+              onClick={() => handlePageClick(pageNumber)}
+              className={pageNumber === currentPage ? "active" : ""}
+            >
+              {pageNumber}
+            </button>
+          ))}
+          {currentPage !== totalPages && (
+            <>
+              <span>...</span>
+              <button onClick={() => handlePageClick(totalPages)}>
+                {totalPages}
+              </button>
+            </>
+          )}
+        </PaginationContainer>
       )}
-      {pageCountList.map((pageNumber: number) => (
-        <button
-          key={pageNumber}
-          onClick={() => handlePageClick(pageNumber)}
-          className={pageNumber === currentPage ? "active" : ""}
-        >
-          {pageNumber}
-        </button>
-      ))}
-      {currentPage !== totalPages && (
-        <>
-          <span>...</span>
-          <button onClick={() => handlePageClick(totalPages)}>
-            {totalPages}
-          </button>
-        </>
-      )}
-    </PaginationContainer>
+    </>
   );
 };
 
@@ -97,7 +111,7 @@ const PaginationContainer = styled.div`
 
   & span {
     margin-left: -10px;
-    padding: 0 10px;
+    padding: 0 5px;
   }
 
   & .active {

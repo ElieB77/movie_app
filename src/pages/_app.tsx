@@ -3,18 +3,18 @@ import { theme } from "@/styles/theme";
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "@/styles/globals";
 import { Layout } from "@/components/Layout";
-import { PaginationProvider } from "@/contexts/PaginationContext";
+import { DataProvider } from "@/contexts/DataContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <GlobalStyles />
       <ThemeProvider theme={theme}>
-        <PaginationProvider>
+        <DataProvider>
           <Layout>
             <Component {...pageProps} />
           </Layout>
-        </PaginationProvider>
+        </DataProvider>
       </ThemeProvider>
     </>
   );

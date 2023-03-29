@@ -1,11 +1,12 @@
 import { LayoutHome } from "@/components/Layout";
-import { getData } from "@/services/httpService";
+import { getData, searchData } from "@/services/httpService";
 import { MoviesResponseType } from "@/types/api/movies";
 import { GetServerSideProps } from "next/types";
 
 interface HomeProps {
   popularMovies: MoviesResponseType;
   topRatedMovies: MoviesResponseType;
+  searchResults: any;
 }
 
 export default function Home(props: HomeProps): JSX.Element {
@@ -14,7 +15,7 @@ export default function Home(props: HomeProps): JSX.Element {
       <LayoutHome
         popularMovies={props.popularMovies}
         topRatedMovies={props.topRatedMovies}
-        total_pages={props.topRatedMovies.total_pages}
+        searchResults={props.searchResults}
       />
     </>
   );
@@ -30,7 +31,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     Number(context.query.page) || undefined
   );
 
+  const searchResults: any = context.query.query
+    ? await searchData<MoviesResponseType>(
+        "/search/movie",
+        context.query.query,
+        Number(context.query.page) || undefined
+      )
+    : null;
+
   return {
-    props: { topRatedMovies: topRatedMovies, popularMovies: popularMovies },
+    props: {
+      topRatedMovies: topRatedMovies,
+      popularMovies: popularMovies,
+      searchResults: searchResults,
+    },
   };
 };

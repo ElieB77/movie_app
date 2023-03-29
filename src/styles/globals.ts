@@ -40,6 +40,10 @@ const Globals = createGlobalStyle`
     font-family: "Outfit Medium", sans-serif;
     font-size: 18px;
   }
+
+  input {
+    font-size: 24px;
+  }
 `;
 
 export default Globals;

@@ -4,16 +4,28 @@ import styled from "styled-components";
 import { FeaturedCard, Card } from "../Card";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { Pagination } from "../Pagination";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { SearchBar } from "../SearchBar";
+import { useRouter } from "next/router";
 
 interface LayoutHomeProps {
   popularMovies: MoviesResponseType;
   topRatedMovies: MoviesResponseType;
-  total_pages: number;
+  searchResults: MoviesResponseType;
 }
 
 export const LayoutHome = (props: LayoutHomeProps): JSX.Element => {
+  const router = useRouter();
+
+  const data = router.query.query
+    ? props.searchResults.results
+    : props.topRatedMovies.results;
+
   return (
     <>
+      <SearchBar placeholder="Search for movies" />
+
       <section>
         <h1>Trending Movies</h1>
         <CardContainer>
@@ -33,20 +45,32 @@ export const LayoutHome = (props: LayoutHomeProps): JSX.Element => {
       <section>
         <h1>Top Rated Movies</h1>
         <TopRatedCardContainer>
-          {props.topRatedMovies.results.map((movie: MoviesType) => {
+          {data.map((movie: MoviesType) => {
             const cardProps: CardType = {
               poster_path: `${process.env.NEXT_PUBLIC_IMAGE_PATH}${movie.poster_path}`,
               alt: `${movie.title} Poster`,
               title: movie.title,
-              release_date: movie.release_date.substring(0, 4),
-              vote_average: movie.vote_average,
+              release_date: movie.release_date
+                ? movie.release_date.substring(0, 4)
+                : "No date",
+              vote_average:
+                movie.vote_average > 0
+                  ? Math.round(movie.vote_average * 10) / 10
+                  : "No vote",
             };
             return <Card key={movie.id} {...cardProps} />;
           })}
         </TopRatedCardContainer>
       </section>
 
-      <Pagination total_pages={props.total_pages} />
+      <Pagination
+        total_pages={
+          router.query.query
+            ? props.searchResults.total_pages
+            : props.topRatedMovies.total_pages
+        }
+        limit={250}
+      />
     </>
   );
 };

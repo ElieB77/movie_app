@@ -16,12 +16,19 @@ export const SearchBar = (props: SearchBarProps): JSX.Element => {
     target: { value: string };
   }) => {
     e.preventDefault();
-    setSearchValue(e.target.value.toLowerCase());
+    setSearchValue(e.target.value);
   };
 
-  const handleKeyDown = (event: { key: string }) => {
-    if (event.key === "Enter") {
-      router.push(`?query=${searchValue}&page=${router.query.page}`);
+  const handleSubmit = () => {
+    if (Boolean(searchValue)) {
+      router.push({
+        query: {
+          query: searchValue.toLowerCase(),
+          page: router.query.page || 1,
+        },
+      });
+    } else {
+      router.replace("/", undefined, { shallow: true });
     }
   };
 
@@ -34,10 +41,11 @@ export const SearchBar = (props: SearchBarProps): JSX.Element => {
         alt={"Logo Search"}
       />
       <input
+        value={searchValue}
         type="text"
         placeholder={props.placeholder}
         onChange={handleChange}
-        onKeyDown={handleKeyDown}
+        onKeyDown={handleSubmit}
       />
     </Container>
   );
@@ -53,9 +61,11 @@ const Container = styled.div`
     border: none;
     color: ${(props) => props.theme.colors.primary_light};
     outline: none;
-    padding-right: 200px;
+    width: 30%;
+    position: relative;
 
     &:focus {
+      border-bottom: solid 2px;
     }
   }
 `;
