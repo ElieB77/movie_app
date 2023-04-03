@@ -5,12 +5,13 @@ import { FeaturedCardType } from "@/types/card";
 interface FeaturedCardProps extends FeaturedCardType {}
 
 export const FeaturedCard = (props: FeaturedCardProps): JSX.Element => {
+  const { poster_path, alt, vote_average } = props;
   return (
     <CardContainer>
       <ImageWrapper>
-        <Image src={props.poster_path} alt={props.alt} fill priority />
+        <Image src={poster_path} alt={alt} fill priority />
         <VoteAverage>
-          <p>{props.vote_average}</p>
+          <p>{vote_average}</p>
         </VoteAverage>
       </ImageWrapper>
     </CardContainer>

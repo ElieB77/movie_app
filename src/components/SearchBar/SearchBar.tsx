@@ -19,7 +19,7 @@ export const SearchBar = (props: SearchBarProps): JSX.Element => {
     setSearchValue(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit: () => void = () => {
     if (Boolean(searchValue)) {
       router.push({
         query: {

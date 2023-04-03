@@ -3,18 +3,18 @@ import { theme } from "@/styles/theme";
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "@/styles/globals";
 import { Layout } from "@/components/Layout";
-import { DataProvider } from "@/contexts/DataContext";
+import { BookmarkProvider } from "@/contexts/BookmarkContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <GlobalStyles />
       <ThemeProvider theme={theme}>
-        <DataProvider>
+        <BookmarkProvider>
           <Layout>
             <Component {...pageProps} />
           </Layout>
-        </DataProvider>
+        </BookmarkProvider>
       </ThemeProvider>
     </>
   );

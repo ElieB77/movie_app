@@ -1,13 +1,12 @@
 import { MoviesResponseType, MoviesType } from "@/types/api/movies";
-import { CardType, FeaturedCardType } from "@/types/card";
+import { CardType } from "@/types/card";
 import styled from "styled-components";
-import { FeaturedCard, Card } from "../Card";
-import ScrollContainer from "react-indiana-drag-scroll";
+import { Card } from "../Card";
 import { Pagination } from "../Pagination";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { SearchBar } from "../SearchBar";
 import { useRouter } from "next/router";
+import { FeaturedMovies } from "../FeaturedMovies";
 
 interface LayoutHomeProps {
   popularMovies: MoviesResponseType;
@@ -28,35 +27,32 @@ export const LayoutHome = (props: LayoutHomeProps): JSX.Element => {
 
       <section>
         <h1>Trending Movies</h1>
-        <CardContainer>
-          <ScrollContainer className="scroll-container" horizontal>
-            {props.popularMovies.results.map((movie: MoviesType) => {
-              const featuredCardProps: FeaturedCardType = {
-                poster_path: `${process.env.NEXT_PUBLIC_IMAGE_PATH}${movie.poster_path}`,
-                alt: `${movie.title} Poster`,
-                vote_average: movie.vote_average,
-              };
-              return <FeaturedCard key={movie.id} {...featuredCardProps} />;
-            })}
-          </ScrollContainer>
-        </CardContainer>
+        <FeaturedMovies data={props.popularMovies.results} />
       </section>
 
       <section>
         <h1>Top Rated Movies</h1>
         <TopRatedCardContainer>
           {data.map((movie: MoviesType) => {
+            const { id, poster_path, title, release_date, vote_average } =
+              movie;
+
+            const posterPath: string = poster_path
+              ? `${process.env.NEXT_PUBLIC_IMAGE_PATH}${poster_path}`
+              : "/images/default-poster.svg";
+            const releaseDate: string = release_date
+              ? release_date.substring(0, 4)
+              : "No date";
+            const voteAverageFormatted: number | string =
+              vote_average > 0 ? Math.round(vote_average * 10) / 10 : "No vote";
+
             const cardProps: CardType = {
-              poster_path: `${process.env.NEXT_PUBLIC_IMAGE_PATH}${movie.poster_path}`,
-              alt: `${movie.title} Poster`,
-              title: movie.title,
-              release_date: movie.release_date
-                ? movie.release_date.substring(0, 4)
-                : "No date",
-              vote_average:
-                movie.vote_average > 0
-                  ? Math.round(movie.vote_average * 10) / 10
-                  : "No vote",
+              id: id,
+              poster_path: posterPath,
+              alt: `${title} Poster`,
+              title: title,
+              release_date: releaseDate,
+              vote_average: voteAverageFormatted,
             };
             return <Card key={movie.id} {...cardProps} />;
           })}
@@ -74,22 +70,6 @@ export const LayoutHome = (props: LayoutHomeProps): JSX.Element => {
     </>
   );
 };
-
-const CardContainer = styled.div`
-  padding: 25px 0;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-
-  & div {
-    overflow-x: auto;
-    display: flex;
-    gap: 40px;
-  }
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
 
 const TopRatedCardContainer = styled.div`
   display: flex;

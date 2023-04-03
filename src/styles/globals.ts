@@ -44,6 +44,16 @@ const Globals = createGlobalStyle`
   input {
     font-size: 24px;
   }
+
+  a {
+    text-decoration: none;
+    color: ${theme.colors.primary_light}
+  }
+
+  p {
+    opacity: .75;
+    line-height: 1.5rem;
+  }
 `;
 
 export default Globals;

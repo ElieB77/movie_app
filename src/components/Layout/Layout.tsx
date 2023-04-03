@@ -2,7 +2,7 @@ import { SideBar } from "../SideBar";
 import styled from "styled-components";
 
 interface LayoutProps {
-  children: any;
+  children: JSX.Element;
 }
 
 export const Layout = (props: LayoutProps): JSX.Element => {

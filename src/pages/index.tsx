@@ -1,49 +1,51 @@
 import { LayoutHome } from "@/components/Layout";
-import { getData, searchData } from "@/services/httpService";
+import { fetchData, searchData } from "@/services/httpService";
 import { MoviesResponseType } from "@/types/api/movies";
 import { GetServerSideProps } from "next/types";
 
 interface HomeProps {
   popularMovies: MoviesResponseType;
   topRatedMovies: MoviesResponseType;
-  searchResults: any;
+  searchResults: MoviesResponseType;
 }
 
 export default function Home(props: HomeProps): JSX.Element {
+  const { popularMovies, topRatedMovies, searchResults } = props;
   return (
     <>
       <LayoutHome
-        popularMovies={props.popularMovies}
-        topRatedMovies={props.topRatedMovies}
-        searchResults={props.searchResults}
+        popularMovies={popularMovies}
+        topRatedMovies={topRatedMovies}
+        searchResults={searchResults}
       />
     </>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const popularMovies: MoviesResponseType = await getData<MoviesResponseType>(
+  const popularMovies: MoviesResponseType = await fetchData<MoviesResponseType>(
     "/movie/popular"
   );
 
-  const topRatedMovies: MoviesResponseType = await getData<MoviesResponseType>(
-    "/movie/top_rated",
-    Number(context.query.page) || undefined
-  );
+  const topRatedMovies: MoviesResponseType =
+    await fetchData<MoviesResponseType>(
+      "/movie/top_rated",
+      Number(context.query.page) || undefined
+    );
 
-  const searchResults: any = context.query.query
-    ? await searchData<MoviesResponseType>(
-        "/search/movie",
-        context.query.query,
-        Number(context.query.page) || undefined
-      )
-    : null;
+  const searchResults: MoviesResponseType | undefined | "" =
+    context.query.query &&
+    (await searchData<MoviesResponseType>(
+      "/search/movie",
+      context.query.query,
+      Number(context.query.page)
+    ));
 
   return {
     props: {
       topRatedMovies: topRatedMovies,
       popularMovies: popularMovies,
-      searchResults: searchResults,
+      searchResults: searchResults || null,
     },
   };
 };

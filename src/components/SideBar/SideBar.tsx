@@ -20,17 +20,19 @@ export const SideBar = (): JSX.Element => {
         </Link>
         <NavLinks>
           {menu.links.map((link: LinkType) => {
+            const { id, href, icon, alt } = link;
+
             return (
               <Link
-                key={link.id}
-                href={link.href}
-                className={router.pathname === link.href ? "active" : ""}
+                key={id}
+                href={href}
+                className={router.pathname === href ? "active" : ""}
               >
                 <Image
-                  src={link.icon}
+                  src={icon}
                   width={menu.iconWidth}
                   height={menu.iconHeight}
-                  alt={link.alt}
+                  alt={alt}
                 />
               </Link>
             );
